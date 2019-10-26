@@ -18,13 +18,13 @@
         </tbody>
         <nav>
             <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" v-on:click="switchPage(from - 1)" href="#">Previous</a></li>
                 <li v-for="from in last" class="page-item"><a class="page-link" v-on:click="switchPage(from)" href="#">{{ from }}</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                <li class="page-item"><a class="page-link" v-on:click="switchPage(from + 1)" href="#">Next</a></li>
             </ul>
         </nav>
     </table>
-
+    
 
 </template>
 
@@ -35,7 +35,9 @@
             return {
                 cars: [],
                 from: '',
-                last: ''
+                last: '',
+                'previous_page': '',
+                'next_page': ''
             }
         },
 
@@ -48,9 +50,13 @@
             getItems() {
                 axios.post('/cars', {})
                     .then(res => {
+                        console.log(res.data);
                         this.cars = res.data.data;
                         this.from = res.data.from;
                         this.last = res.data.last_page;
+
+                        this.next_page = res.data.next_page;
+                        this.previous_page = res.data.previous_page;
                     })
             },
 
@@ -58,7 +64,9 @@
 
                 axios.post('/cars?page=' + page, {})
                     .then(res => {
-                        this.cars = res.data.data
+                        this.cars = res.data.data;
+                        this.next_page = res.data.next_page;
+                        this.previous_page = res.data.previous_page;
                     })
             }
 
