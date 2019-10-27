@@ -13,7 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <app-table></app-table>
+                    <app-table :columns="{{ $columns }}"></app-table>
                     You are logged in!
                 </div>
             </div>

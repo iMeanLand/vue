@@ -1,17 +1,15 @@
 <template>
-    <div v-if="isVisible" class="loader-overlay">
+    <div v-if="show" class="loader-overlay">
         <div class="loader"></div>
-        <span class="text" v-html="text"></span>
     </div>
 </template>
 
 <script>
     export default {
         name: "Loader",
-        props: {
-            isVisible: {type: Boolean, required: true},
-            text: {type: String, required: false, default: ""},
-        },
+        props: [
+            'show',
+        ]
     }
 </script>
 
@@ -27,16 +25,8 @@
         background-color: rgba(0, 0, 0, 0.7);
         z-index: 999;
         cursor: pointer;
-        span.text {
-            display: inline-block;
-            position: relative;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%,-50%);
-            color: #fff;
-        }
         .loader {
-            animation: loader-animate 1.5s linear infinite;
+            animation: loader-animate 0.2s linear infinite;
             clip: rect(0, 80px, 80px, 40px);
             height: 80px;
             width: 80px;
@@ -44,7 +34,7 @@
             left: calc(50% - 40px);
             top: calc(50% - 40px);
             &:after {
-                animation: loader-animate-after 1.5s ease-in-out infinite;
+                animation: loader-animate-after 0.2s ease-in-out infinite;
                 clip: rect(0, 80px, 80px, 40px);
                 content: '';
                 border-radius: 50%;

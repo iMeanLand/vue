@@ -1,73 +1,91 @@
 <template>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Created At</th>
-            <th>Updated At</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="car in cars">
-            <td :key="car.name">{{ car.name }}</td>
-            <td>{{ car.created_at }}</td>
-            <td>{{ car.updated_at }}</td>
-            <td></td>
-        </tr>
-        </tbody>
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th v-for="column in columns">{{ column.name }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="item in items">
+                <td v-for="column in columns">
+                    <!--TODO: IF link show link -->
+                    {{ item[column.field_name] }}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <Loader :show="loader"/>
         <nav>
             <ul class="pagination">
-                <li class="page-item"><a class="page-link" v-on:click="switchPage(from - 1)" href="#">Previous</a></li>
-                <li v-for="from in last" class="page-item"><a class="page-link" v-on:click="switchPage(from)" href="#">{{ from }}</a></li>
-                <li class="page-item"><a class="page-link" v-on:click="switchPage(from + 1)" href="#">Next</a></li>
+                <li class="page-item">
+                    <a class="page-link" v-if="current_page > from" v-on:click="switchPage(current_page - 1)" href="#">Previous</a>
+                </li>
+                <li v-for="from in last" class="page-item">
+                    <a class="page-link" v-on:click="switchPage(from)" href="#">{{ from }}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" v-if="current_page < last" v-on:click="switchPage(current_page + 1)" href="#">Next</a>
+                </li>
             </ul>
         </nav>
-    </table>
-    
-
+    </div>
 </template>
 
 <script>
+    import Loader from './misc/Loader';
+
     export default {
+
+        props: [
+            'columns'
+        ],
 
         data() {
             return {
-                cars: [],
+                items: [],
                 from: '',
                 last: '',
-                'previous_page': '',
-                'next_page': ''
+                current_page: 1,
+                loader: false
             }
         },
 
         mounted() {
+            console.log(this.columns);
             this.getItems();
+        },
+
+        components: {
+            Loader
         },
 
         methods: {
 
             getItems() {
+
                 axios.post('/cars', {})
                     .then(res => {
                         console.log(res.data);
-                        this.cars = res.data.data;
+                        this.items = res.data.data;
                         this.from = res.data.from;
                         this.last = res.data.last_page;
-
-                        this.next_page = res.data.next_page;
-                        this.previous_page = res.data.previous_page;
-                    })
+                        this.loader = false
+                    });
+                this.loader = true
             },
 
             switchPage(page = 1) {
-
+                this.current_page = page;
                 axios.post('/cars?page=' + page, {})
                     .then(res => {
-                        this.cars = res.data.data;
+                        this.items = res.data.data;
                         this.next_page = res.data.next_page;
                         this.previous_page = res.data.previous_page;
-                    })
+                        this.loader = false
+                    });
+                this.loader = true
+
             }
 
         }

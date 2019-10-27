@@ -23,3 +23,6 @@ Route::get('/cars/attach/{car}/wheel/{wheel}', 'CarsController@attachWheel');
 Route::get('/cars/detach/{car}/wheel/{wheel}', 'CarsController@detachWheel');
 Route::get('/cars/detach/{car}/wheel/{wheel}', 'CarsController@detachWheel');
 Route::post('/cars', 'Api\CarsController@index');
+Route::get('/cars/add', 'CarsController@add')->name('cars.add');
+Route::post('/cars/add', 'Api\CarsController@add');
+Route::get('/cars/edit/{id}', 'CarsController@edit')->name('cars.edit');
