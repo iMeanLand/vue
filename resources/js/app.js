@@ -1,5 +1,6 @@
 import Table from './components/Table';
 import Add from './components/Add';
+import Edit from './components/Edit';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -33,5 +34,6 @@ const app = new Vue({
     components: {
         'app-table': Table,
         'add': Add,
+        'edit': Edit
     }
 });

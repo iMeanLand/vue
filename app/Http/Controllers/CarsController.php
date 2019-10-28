@@ -64,4 +64,28 @@ class CarsController extends Controller
 
         return view('cars.add', ['fields' => json_encode($fields)]);
     }
+
+    public function edit($id)
+    {
+        $fields = [
+            [
+                'label' => 'Name',
+                'name' => 'name',
+                'type' => 'text',
+                'placeholder' => 'Name',
+                'required' => true
+            ],
+            [
+                'label' => 'Max speed',
+                'name' => 'max_speed',
+                'type' => 'text',
+                'placeholder' => 'Max speed',
+                'required' => false
+            ],
+        ];
+
+        $car = Car::find($id);
+
+        return view('cars.edit', ['fields' => json_encode($fields), 'car' => $car]);
+    }
 }

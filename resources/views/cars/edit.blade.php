@@ -6,12 +6,13 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    Add car
+                    Edit car
                 </div>
                 <div class="card-body">
                     <Edit action="{{ '/cars/edit/' }}"
-                         :fields="{{ $fields }}"
-                         :button="'Add'">
+                          :fields="{{ $fields }}"
+                          :model="{{ $car }}"
+                          :button="'Save'">
                     </Edit>
                 </div>
             </div>

@@ -10,7 +10,10 @@
             <tr v-for="item in items">
                 <td v-for="column in columns">
                     <!--TODO: IF link show link -->
-                    {{ item[column.field_name] }}
+                    <a v-if="column.link" :href="column.link + item.id">
+                        {{ item[column.field_name] }}
+                    </a>
+                    <span v-else-if="!column.link">{{ item[column.field_name] }}</span>
                 </td>
             </tr>
             </tbody>

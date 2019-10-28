@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Car extends Model
 {
+    protected $fillable = ['name', 'max_speed'];
+
     public function wheels()
     {
         return $this->belongsToMany(Wheel::class);

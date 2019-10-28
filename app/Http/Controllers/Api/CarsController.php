@@ -17,24 +17,22 @@ class CarsController extends \App\Http\Controllers\Controller
 
     public function add(Request $request)
     {
-        $name = $request->input('name');
-        $max_speed = $request->input('max_speed');
-
         $car = new Car();
 
-        $car->name = $name;
-        $car->max_speed = $max_speed;
-        $add = $car->save();
+        $car->fill($request->all());
+        $result = $car->save();
 
-        if ($add) {
+        if ($result) {
             return 'success';
         }
     }
 
-    public function edit($id) {
-        $car = Car::find($id);
+    public function edit(Request $request, $id) {
+        $result = Car::find($id)->update($request->all());
 
-        return view('cars.edit', ['car' => $car]);
+        if ($result) {
+            return 'success';
+        }
     }
 
 }
