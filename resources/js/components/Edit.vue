@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="col-lg-12">
-                <button  v-on:click.prevent="submit" type="submit" class="btn btn-primary mb-2">{{ button }}</button>
+                <button v-on:click.prevent="submit" type="submit" class="btn btn-primary mb-2">{{ button }}</button>
             </div>
         </div>
         <Loader :show="loader"/>
@@ -51,7 +51,7 @@
 
         methods: {
             submit() {
-                let form =this.$refs.form;
+                let form = this.$refs.form;
                 console.log(form);
                 let data = new FormData(form);
                 this.loader = true;
