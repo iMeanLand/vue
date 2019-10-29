@@ -1791,12 +1791,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['action', 'fields', 'button', 'model'],
   data: function data() {
     return {
-      loader: false
+      loader: false,
+      values: {}
     };
   },
   mounted: function mounted() {
@@ -1811,7 +1813,6 @@ __webpack_require__.r(__webpack_exports__);
 
       var form = document.getElementById('edit-form');
       var data = new FormData(form);
-      data.append("_method", "POST");
       this.loader = true;
       axios.post(this.action + this.model.id, data).then(function (res) {
         _this.loader = false;
@@ -1869,14 +1870,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['columns'],
+  props: ['columns', 'action'],
   data: function data() {
     return {
       items: [],
-      from: '',
+      from: 1,
       last: '',
       current_page: 1,
       loader: false
@@ -1891,27 +1891,19 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getItems: function getItems() {
-      var _this = this;
-
-      axios.post('/cars', {}).then(function (res) {
-        console.log(res.data);
-        _this.items = res.data.data;
-        _this.from = res.data.from;
-        _this.last = res.data.last_page;
-        _this.loader = false;
-      });
-      this.loader = true;
+      this.switchPage(1);
     },
     switchPage: function switchPage() {
-      var _this2 = this;
+      var _this = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       this.current_page = page;
-      axios.post('/cars?page=' + page, {}).then(function (res) {
-        _this2.items = res.data.data;
-        _this2.next_page = res.data.next_page;
-        _this2.previous_page = res.data.previous_page;
-        _this2.loader = false;
+      axios.post(this.action + '?page=' + page, {}).then(function (res) {
+        _this.items = res.data.data;
+        _this.next_page = res.data.next_page;
+        _this.last = res.data.last_page;
+        _this.previous_page = res.data.previous_page;
+        _this.loader = false;
       });
       this.loader = true;
     }
@@ -38021,7 +38013,8 @@ var render = function() {
                         placeholder: field.placeholder,
                         required: field.required
                       },
-                      domProps: { value: _vm.model[field.name] }
+                      domProps: { value: _vm.model[field.name] },
+                      on: { change: function($event) {} }
                     })
                   ])
             ])

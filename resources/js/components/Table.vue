@@ -9,7 +9,6 @@
             <tbody>
             <tr v-for="item in items">
                 <td v-for="column in columns">
-                    <!--TODO: IF link show link -->
                     <a v-if="column.link" :href="column.link + item.id">
                         {{ item[column.field_name] }}
                     </a>
@@ -41,13 +40,14 @@
     export default {
 
         props: [
-            'columns'
+            'columns',
+            'action'
         ],
 
         data() {
             return {
                 items: [],
-                from: '',
+                from: 1,
                 last: '',
                 current_page: 1,
                 loader: false
@@ -66,29 +66,21 @@
         methods: {
 
             getItems() {
-
-                axios.post('/cars', {})
-                    .then(res => {
-                        console.log(res.data);
-                        this.items = res.data.data;
-                        this.from = res.data.from;
-                        this.last = res.data.last_page;
-                        this.loader = false
-                    });
-                this.loader = true
+                this.switchPage(1);
             },
 
             switchPage(page = 1) {
                 this.current_page = page;
-                axios.post('/cars?page=' + page, {})
+                axios.post(this.action +'?page=' + page, {})
                     .then(res => {
                         this.items = res.data.data;
                         this.next_page = res.data.next_page;
+                        this.last = res.data.last_page;
                         this.previous_page = res.data.previous_page;
                         this.loader = false
                     });
-                this.loader = true
 
+                this.loader = true
             }
 
         }

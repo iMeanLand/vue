@@ -13,6 +13,7 @@
                            :name="field.name" :id="field.name"
                            :placeholder="field.placeholder"
                            :value="model[field.name]"
+                           v-on:change=""
                            :required="field.required">
                 </div>
             </div>
@@ -39,6 +40,7 @@
         data() {
             return {
                 loader: false,
+                values: {}
             }
         },
 
@@ -51,11 +53,9 @@
         },
 
         methods: {
-
             submit() {
                 let form = document.getElementById('edit-form');
                 let data = new FormData(form);
-                data.append("_method", "POST");
                 this.loader = true;
                 axios.post(this.action + this.model.id, data)
                     .then(res => {
