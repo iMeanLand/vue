@@ -1,5 +1,5 @@
 <template>
-    <form v-on:submit.prevent="submit" id="edit-form">
+    <form ref="form" id="edit-form">
         <div class="form-row align-items-center">
             <div class="col-lg-6" v-for="field in fields">
                 <div v-if="field.type === 'hidden'">
@@ -12,13 +12,12 @@
                     <input :type="field.type" class="form-control mb-2"
                            :name="field.name" :id="field.name"
                            :placeholder="field.placeholder"
-                           :value="model[field.name]"
-                           v-on:change=""
+                           v-model="model[field.name]"
                            :required="field.required">
                 </div>
             </div>
             <div class="col-lg-12">
-                <button type="submit" class="btn btn-primary mb-2">{{ button }}</button>
+                <button  v-on:click.prevent="submit" type="submit" class="btn btn-primary mb-2">{{ button }}</button>
             </div>
         </div>
         <Loader :show="loader"/>
@@ -40,12 +39,10 @@
         data() {
             return {
                 loader: false,
-                values: {}
             }
         },
 
         mounted() {
-            console.log(this.fields);
         },
 
         components: {
@@ -54,13 +51,13 @@
 
         methods: {
             submit() {
-                let form = document.getElementById('edit-form');
+                let form =this.$refs.form;
+                console.log(form);
                 let data = new FormData(form);
                 this.loader = true;
                 axios.post(this.action + this.model.id, data)
                     .then(res => {
                         this.loader = false;
-                        console.log(res);
                     })
             }
 

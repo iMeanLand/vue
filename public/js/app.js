@@ -1791,19 +1791,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['action', 'fields', 'button', 'model'],
   data: function data() {
     return {
-      loader: false,
-      values: {}
+      loader: false
     };
   },
-  mounted: function mounted() {
-    console.log(this.fields);
-  },
+  mounted: function mounted() {},
   components: {
     Loader: _misc_Loader__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
@@ -1811,12 +1807,12 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this = this;
 
-      var form = document.getElementById('edit-form');
+      var form = this.$refs.form;
+      console.log(form);
       var data = new FormData(form);
       this.loader = true;
       axios.post(this.action + this.model.id, data).then(function (res) {
         _this.loader = false;
-        console.log(res);
       });
     }
   }
@@ -37974,15 +37970,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "form",
-    {
-      attrs: { id: "edit-form" },
-      on: {
-        submit: function($event) {
-          $event.preventDefault()
-          return _vm.submit($event)
-        }
-      }
-    },
+    { ref: "form", attrs: { id: "edit-form" } },
     [
       _c(
         "div",
@@ -38004,18 +37992,118 @@ var render = function() {
                       [_vm._v(_vm._s(field.label))]
                     ),
                     _vm._v(" "),
-                    _c("input", {
-                      staticClass: "form-control mb-2",
-                      attrs: {
-                        type: field.type,
-                        name: field.name,
-                        id: field.name,
-                        placeholder: field.placeholder,
-                        required: field.required
-                      },
-                      domProps: { value: _vm.model[field.name] },
-                      on: { change: function($event) {} }
-                    })
+                    field.type === "checkbox"
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.model[field.name],
+                              expression: "model[field.name]"
+                            }
+                          ],
+                          staticClass: "form-control mb-2",
+                          attrs: {
+                            name: field.name,
+                            id: field.name,
+                            placeholder: field.placeholder,
+                            required: field.required,
+                            type: "checkbox"
+                          },
+                          domProps: {
+                            checked: Array.isArray(_vm.model[field.name])
+                              ? _vm._i(_vm.model[field.name], null) > -1
+                              : _vm.model[field.name]
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$a = _vm.model[field.name],
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false
+                              if (Array.isArray($$a)) {
+                                var $$v = null,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 &&
+                                    _vm.$set(
+                                      _vm.model,
+                                      field.name,
+                                      $$a.concat([$$v])
+                                    )
+                                } else {
+                                  $$i > -1 &&
+                                    _vm.$set(
+                                      _vm.model,
+                                      field.name,
+                                      $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1))
+                                    )
+                                }
+                              } else {
+                                _vm.$set(_vm.model, field.name, $$c)
+                              }
+                            }
+                          }
+                        })
+                      : field.type === "radio"
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.model[field.name],
+                              expression: "model[field.name]"
+                            }
+                          ],
+                          staticClass: "form-control mb-2",
+                          attrs: {
+                            name: field.name,
+                            id: field.name,
+                            placeholder: field.placeholder,
+                            required: field.required,
+                            type: "radio"
+                          },
+                          domProps: {
+                            checked: _vm._q(_vm.model[field.name], null)
+                          },
+                          on: {
+                            change: function($event) {
+                              return _vm.$set(_vm.model, field.name, null)
+                            }
+                          }
+                        })
+                      : _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.model[field.name],
+                              expression: "model[field.name]"
+                            }
+                          ],
+                          staticClass: "form-control mb-2",
+                          attrs: {
+                            name: field.name,
+                            id: field.name,
+                            placeholder: field.placeholder,
+                            required: field.required,
+                            type: field.type
+                          },
+                          domProps: { value: _vm.model[field.name] },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.model,
+                                field.name,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
                   ])
             ])
           }),
@@ -38025,7 +38113,13 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-primary mb-2",
-                attrs: { type: "submit" }
+                attrs: { type: "submit" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.submit($event)
+                  }
+                }
               },
               [_vm._v(_vm._s(_vm.button))]
             )
