@@ -10,21 +10,30 @@ class CarsController extends Controller
     {
         $columns = [
             [
+                'name' => 'Select',
+                'field_name' => '',
+                'type' => 'Checkbox'
+            ],
+            [
                 'name' => 'Name',
                 'field_name' => 'name',
-                'link' => '/cars/edit/'
+                'link' => '/cars/edit/',
+                'type' => 'Linked'
             ],
             [
                 'name' => 'Max Speed',
                 'field_name' => 'max_speed',
+                'type' => 'Simple'
             ],
             [
                 'name' => 'Created At',
                 'field_name' => 'created_at',
+                'type' => 'Simple'
             ],
             [
                 'name' => 'Updated At',
                 'field_name' => 'updated_at',
+                'type' => 'Simple'
             ],
         ];
 

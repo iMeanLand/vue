@@ -1,4 +1,4 @@
-import Table from './components/Table';
+import Table from './components/table/Table';
 import Add from './components/Add';
 import Edit from './components/Edit';
 

@@ -15,7 +15,7 @@
 
 <style lang="scss">
     .loader-overlay {
-        position: fixed;
+        position: absolute;
         width: 100%;
         height: 100%;
         top: 0;
@@ -26,7 +26,7 @@
         z-index: 999;
         cursor: pointer;
         .loader {
-            animation: loader-animate 0.2s linear infinite;
+            animation: loader-animate 0.55s linear infinite;
             clip: rect(0, 80px, 80px, 40px);
             height: 80px;
             width: 80px;
@@ -34,7 +34,7 @@
             left: calc(50% - 40px);
             top: calc(50% - 40px);
             &:after {
-                animation: loader-animate-after 0.2s ease-in-out infinite;
+                animation: loader-animate-after 0.55s ease-in-out infinite;
                 clip: rect(0, 80px, 80px, 40px);
                 content: '';
                 border-radius: 50%;

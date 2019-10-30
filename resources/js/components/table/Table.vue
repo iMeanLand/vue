@@ -7,14 +7,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="item in items">
-                <td v-for="column in columns">
-                    <a v-if="column.link" :href="column.link + item.id">
-                        {{ item[column.field_name] }}
-                    </a>
-                    <span v-else-if="!column.link">{{ item[column.field_name] }}</span>
-                </td>
-            </tr>
+                <Row v-for="item in items" :item="item" :columns="columns"/>
             </tbody>
         </table>
         <Loader :show="loader"/>
@@ -35,7 +28,8 @@
 </template>
 
 <script>
-    import Loader from './misc/Loader';
+    import Loader from '../misc/Loader';
+    import Row from './rows/Row';
 
     export default {
 
@@ -60,7 +54,8 @@
         },
 
         components: {
-            Loader
+            Loader,
+            Row
         },
 
         methods: {
