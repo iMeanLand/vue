@@ -7,7 +7,11 @@
             </tr>
             </thead>
             <tbody>
-                <Row v-for="item in items" :item="item" :columns="columns"/>
+                <Row v-for="item in items" :item="item" :columns="columns">
+                    <template v-for="column in columns" :slot="'column.' + column.field_name">
+                        <slot :name="`column.${column.field_name}`" :item="item"></slot>
+                    </template>
+                </Row>
             </tbody>
         </table>
         <Loader :show="loader"/>
@@ -30,6 +34,7 @@
 <script>
     import Loader from '../misc/Loader';
     import Row from './rows/Row';
+    let jora = 'column.name';
 
     export default {
 

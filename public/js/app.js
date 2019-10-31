@@ -1882,8 +1882,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
+var jora = 'column.name';
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['columns', 'action'],
   data: function data() {
@@ -1944,6 +1949,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -1998,8 +2006,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['column', 'item'],
   mounted: function mounted() {}
@@ -2016,8 +2022,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
 //
 //
 //
@@ -38300,7 +38304,25 @@ var render = function() {
         _c(
           "tbody",
           _vm._l(_vm.items, function(item) {
-            return _c("Row", { attrs: { item: item, columns: _vm.columns } })
+            return _c(
+              "Row",
+              { attrs: { item: item, columns: _vm.columns } },
+              [
+                _vm._l(_vm.columns, function(column) {
+                  return _c(
+                    "template",
+                    { slot: "column." + column.field_name },
+                    [
+                      _vm._t("column." + column.field_name, null, {
+                        item: item
+                      })
+                    ],
+                    2
+                  )
+                })
+              ],
+              2
+            )
           }),
           1
         )
@@ -38399,12 +38421,22 @@ var render = function() {
   return _c(
     "tr",
     _vm._l(_vm.columns, function(column) {
-      return _c(column.type, {
-        tag: "component",
-        attrs: { column: column, item: _vm.item }
-      })
+      return _c(
+        "td",
+        [
+          !_vm.$scopedSlots["column." + column.field_name]
+            ? _c(column.type, {
+                tag: "component",
+                attrs: { column: column, item: _vm.item }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm._t("column." + column.field_name, null, { item: _vm.item })
+        ],
+        2
+      )
     }),
-    1
+    0
   )
 }
 var staticRenderFns = []
@@ -38429,16 +38461,50 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("label", [
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.item[_vm.column.field_name],
+          expression: "item[column.field_name]"
+        }
+      ],
+      attrs: { type: "checkbox" },
+      domProps: {
+        checked: Array.isArray(_vm.item[_vm.column.field_name])
+          ? _vm._i(_vm.item[_vm.column.field_name], null) > -1
+          : _vm.item[_vm.column.field_name]
+      },
+      on: {
+        change: function($event) {
+          var $$a = _vm.item[_vm.column.field_name],
+            $$el = $event.target,
+            $$c = $$el.checked ? true : false
+          if (Array.isArray($$a)) {
+            var $$v = null,
+              $$i = _vm._i($$a, $$v)
+            if ($$el.checked) {
+              $$i < 0 &&
+                _vm.$set(_vm.item, _vm.column.field_name, $$a.concat([$$v]))
+            } else {
+              $$i > -1 &&
+                _vm.$set(
+                  _vm.item,
+                  _vm.column.field_name,
+                  $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                )
+            }
+          } else {
+            _vm.$set(_vm.item, _vm.column.field_name, $$c)
+          }
+        }
+      }
+    })
+  ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("input", { attrs: { type: "checkbox" } })])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -38460,10 +38526,8 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("td", [
-    _c("a", { attrs: { href: _vm.column.link + _vm.item.id } }, [
-      _vm._v("\n        " + _vm._s(_vm.item[_vm.column.field_name]) + "\n    ")
-    ])
+  return _c("a", { attrs: { href: _vm.column.link + _vm.item.id } }, [
+    _vm._v("\n    " + _vm._s(_vm.item[_vm.column.field_name]) + "\n")
   ])
 }
 var staticRenderFns = []
@@ -38488,9 +38552,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("td", [
-    _c("span", [_vm._v(_vm._s(_vm.item[_vm.column.field_name]))])
-  ])
+  return _c("span", [_vm._v(_vm._s(_vm.item[_vm.column.field_name]))])
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -1,6 +1,9 @@
 <template>
     <tr>
-        <component v-for="column in columns" :is="column.type" :column="column" :item="item" />
+        <td v-for="column in columns">
+            <component :is="column.type" :column="column" :item="item" v-if="!$scopedSlots[`column.${column.field_name}`]"></component>
+            <slot :name="`column.${column.field_name}`" :item="item"></slot>
+        </td>
     </tr>
 </template>
 

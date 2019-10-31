@@ -1,7 +1,5 @@
 <template>
-    <td>
-        <span>{{ item[column.field_name] }}</span>
-    </td>
+    <span>{{ item[column.field_name] }}</span>
 </template>
 
 <script>

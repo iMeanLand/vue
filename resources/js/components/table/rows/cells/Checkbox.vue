@@ -1,7 +1,7 @@
 <template>
-    <td>
-        <input type="checkbox"/>
-    </td>
+    <label>
+        <input v-model="item[column.field_name]" type="checkbox"/>
+    </label>
 </template>
 
 <script>

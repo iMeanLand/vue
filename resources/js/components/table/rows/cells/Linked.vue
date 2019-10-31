@@ -1,9 +1,7 @@
 <template>
-    <td>
-        <a :href="column.link + item.id">
-            {{ item[column.field_name] }}
-        </a>
-    </td>
+    <a :href="column.link + item.id">
+        {{ item[column.field_name] }}
+    </a>
 </template>
 
 <script>
