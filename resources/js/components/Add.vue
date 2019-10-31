@@ -7,6 +7,13 @@
                            :name="field.name"
                            :value="model[field.name]">
                 </div>
+                <div v-else-if="field.type === 'select'">
+                    <label :for="field.name" class="sr-only">{{ field.label }}</label>
+                    <select class="form-control" :name="field.name">
+                    <option>Select an option</option>
+                        <option v-model="option.id" v-for="option in field.options">{{ option.name }}</option>
+                    </select>
+                </div>
                 <div v-else>
                     <label :for="field.name" class="sr-only">{{ field.label }}</label>
                     <input :type="field.type" class="form-control mb-2"

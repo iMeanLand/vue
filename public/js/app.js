@@ -1723,6 +1723,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['action', 'fields', 'button'],
@@ -1791,6 +1798,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['action', 'fields', 'button', 'model'],
@@ -1799,7 +1813,9 @@ __webpack_require__.r(__webpack_exports__);
       loader: false
     };
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    console.log(this.model);
+  },
   components: {
     Loader: _misc_Loader__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
@@ -2028,7 +2044,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['column', 'item'],
-  mounted: function mounted() {}
+  mounted: function mounted() {},
+  computed: {
+    getItemValue: function getItemValue() {
+      var parts = this.column.field_name.split('.');
+      var item = this.item;
+      console.log(parts);
+      console.log(item);
+      parts.forEach(function (val, index) {
+        if (typeof item[val] === 'undefined' || item[val] == null) {
+          item = '';
+        } else {
+          item = item[val];
+        }
+      });
+      console.log(item);
+      return item;
+    }
+  }
 });
 
 /***/ }),
@@ -38009,6 +38042,42 @@ var render = function() {
                       domProps: { value: _vm.model[field.name] }
                     })
                   ])
+                : field.type === "select"
+                ? _c("div", [
+                    _c(
+                      "label",
+                      { staticClass: "sr-only", attrs: { for: field.name } },
+                      [_vm._v(_vm._s(field.label))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        staticClass: "form-control",
+                        attrs: { name: field.name }
+                      },
+                      [
+                        _c("option", [_vm._v("Select an option")]),
+                        _vm._v(" "),
+                        _vm._l(field.options, function(option) {
+                          return _c(
+                            "option",
+                            {
+                              model: {
+                                value: option.id,
+                                callback: function($$v) {
+                                  _vm.$set(option, "id", $$v)
+                                },
+                                expression: "option.id"
+                              }
+                            },
+                            [_vm._v(_vm._s(option.name))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ])
                 : _c("div", [
                     _c(
                       "label",
@@ -38087,6 +38156,39 @@ var render = function() {
                       attrs: { type: field.type, name: field.name },
                       domProps: { value: _vm.model[field.name] }
                     })
+                  ])
+                : field.type === "select"
+                ? _c("div", [
+                    _c(
+                      "label",
+                      { staticClass: "sr-only", attrs: { for: field.name } },
+                      [_vm._v(_vm._s(field.label))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        staticClass: "form-control",
+                        attrs: { name: field.name }
+                      },
+                      [
+                        _c("option", [_vm._v("Select an option")]),
+                        _vm._v(" "),
+                        _vm._l(field.options, function(option) {
+                          return _c(
+                            "option",
+                            {
+                              domProps: {
+                                selected: _vm.model.speed_unit_id === option.id,
+                                value: option.id
+                              }
+                            },
+                            [_vm._v(_vm._s(option.name))]
+                          )
+                        })
+                      ],
+                      2
+                    )
                   ])
                 : _c("div", [
                     _c(
@@ -38552,7 +38654,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("span", [_vm._v(_vm._s(_vm.item[_vm.column.field_name]))])
+  return _c("span", [_vm._v(_vm._s(_vm.getItemValue))])
 }
 var staticRenderFns = []
 render._withStripped = true

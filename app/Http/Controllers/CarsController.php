@@ -8,6 +8,10 @@ class CarsController extends Controller
 {
     public function index()
     {
+//        $car = new Car();
+//        $cars = $car->with(['wheels', 'speedUnit'])->paginate(10);
+//        dd($cars);
+
         $columns = [
             [
                 'name' => 'Select',
@@ -19,6 +23,11 @@ class CarsController extends Controller
                 'field_name' => 'name',
                 'link' => '/cars/edit/',
                 'type' => 'Linked'
+            ],
+            [
+                'name' => 'Speed unit',
+                'field_name' => 'speed_unit.name',
+                'type' => 'Simple'
             ],
             [
                 'name' => 'Max Speed',
@@ -54,6 +63,8 @@ class CarsController extends Controller
 
     public function add()
     {
+        $speedUnits = new \App\Models\SpeedUnit();
+
         $fields = [
             [
                 'label' => 'Name',
@@ -68,6 +79,14 @@ class CarsController extends Controller
                 'type' => 'text',
                 'placeholder' => 'Max speed',
                 'required' => false
+            ],
+            [
+                'label' => 'Speed units',
+                'name' => 'speed_unit',
+                'type' => 'select',
+                'placeholder' => 'Speed unit',
+                'required' => true,
+                'options' => $speedUnits->get()
             ],
         ];
 
@@ -76,6 +95,8 @@ class CarsController extends Controller
 
     public function edit($id)
     {
+        $speedUnits = new \App\Models\SpeedUnit();
+
         $fields = [
             [
                 'label' => 'Name',
@@ -89,12 +110,19 @@ class CarsController extends Controller
                 'name' => 'max_speed',
                 'type' => 'text',
                 'placeholder' => 'Max speed',
-                'required' => false
+                'required' => true
+            ],
+            [
+                'label' => 'Speed units',
+                'name' => 'speed_unit_id',
+                'type' => 'select',
+                'placeholder' => 'Speed unit',
+                'required' => true,
+                'options' => $speedUnits->get()
             ],
         ];
 
         $car = Car::find($id);
-
         return view('cars.edit', ['fields' => json_encode($fields), 'car' => $car]);
     }
 }

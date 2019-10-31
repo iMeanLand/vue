@@ -1,5 +1,5 @@
 <template>
-    <span>{{ item[column.field_name] }}</span>
+    <span>{{ getItemValue }}</span>
 </template>
 
 <script>
@@ -10,8 +10,24 @@
             'item'
         ],
 
-        mounted() {
+        mounted() {},
 
+        computed: {
+            getItemValue: function() {
+                let parts = this.column.field_name.split('.');
+                let item = this.item;
+                console.log(parts);
+                console.log(item);
+                parts.forEach((val, index) => {
+                    if (typeof item[val] === 'undefined' || item[val] == null) {
+                        item = '';
+                    } else {
+                        item = item[val];
+                    }
+                });
+                console.log(item);
+                return item;
+            }
         }
 
     }

@@ -6,11 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Car extends Model
 {
-    protected $fillable = ['name', 'max_speed'];
+    protected $fillable = ['name', 'max_speed', 'speed_unit_id'];
 
     public function wheels()
     {
         return $this->belongsToMany(Wheel::class);
+    }
+
+    public function speedUnit()
+    {
+        return $this->belongsTo(SpeedUnit::class);
     }
 
     public function getCarsWithWheels()

@@ -10,7 +10,8 @@ class CarsController extends \App\Http\Controllers\Controller
     public function index()
     {
         $car = new Car();
-        $cars = $car->with('wheels')->paginate(10);
+        $cars = $car->with(['wheels', 'speedUnit'])->paginate(10);
+//        $cars = $car->with(['wheels', 'speedUnit'])->where('id', '11')->paginate(10);
 
         return json_encode($cars);
     }
