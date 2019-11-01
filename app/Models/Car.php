@@ -13,7 +13,7 @@ class Car extends Model
         return $this->belongsToMany(Wheel::class);
     }
 
-    public function speedUnit()
+    public function speed_unit()
     {
         return $this->belongsTo(SpeedUnit::class);
     }

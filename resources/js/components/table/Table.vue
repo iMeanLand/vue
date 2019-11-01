@@ -31,7 +31,7 @@
                     <a class="page-link" v-if="current_page > from" v-on:click="switchPage(current_page - 1)" href="#">Previous</a>
                 </li>
                 <li v-for="from in last" class="page-item">
-                    <a class="page-link" v-on:click="switchPage(from)" href="#">{{ from }}</a>
+                    <a :class="'page-link ' + (from === current_page ? 'active' : '')" v-on:click="switchPage(from)" href="#">{{ from }}</a>
                 </li>
                 <li class="page-item">
                     <a class="page-link" v-if="current_page < last" v-on:click="switchPage(current_page + 1)" href="#">Next</a>
@@ -40,6 +40,14 @@
         </nav>
     </div>
 </template>
+<style lang="scss">
+    .page-link {
+        &.active {
+            background: #1d68a7;
+            color: #fff;
+        }
+    }
+</style>
 
 <script>
     import Provider from './Provider.js';
@@ -76,7 +84,6 @@
         },
 
         mounted() {
-            console.log(this.direction);
             this.getItems();
         },
 
@@ -95,7 +102,9 @@
             switchPage(page = 1) {
                 this.current_page = page;
 
-                this.dataProvider.fetchData(this.action, 'page=' + page).then(data => {
+                this.dataProvider.fetchData(this.action, {
+                    page: page
+                }).then(data => {
                     this.items = data.data;
                     this.next_page = data.next_page;
                     this.last = data.last_page;
@@ -126,7 +135,11 @@
 
                 this.current_sort_field = field;
 
-                this.dataProvider.sortBy(this.action, 'page=' + this.current_page + '&sortby=' + field + '&direction=' + this.direction).then(data => {
+                this.dataProvider.fetchData(this.action, {
+                    page: this.current_page,
+                    sortby: field,
+                    direction: this.direction
+                }).then(data => {
                     this.items = data.data;
                     this.loader = false
                 });

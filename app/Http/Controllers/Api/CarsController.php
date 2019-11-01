@@ -11,7 +11,7 @@ class CarsController extends \App\Http\Controllers\Controller
     {
         $car = new Car();
 
-        $query = $cars = $car->with(['wheels', 'speedUnit']);
+        $query = $car->with(['wheels', 'speed_unit']);
 
         if (!empty($request['sortby']) && !empty($request['direction']) && $request['direction'] != 'null') {
             $query->orderBy($request['sortby'], $request['direction']);

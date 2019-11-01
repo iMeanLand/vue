@@ -8,10 +8,6 @@ class CarsController extends Controller
 {
     public function index()
     {
-//        $car = new Car();
-//        $cars = $car->with(['wheels', 'speedUnit'])->paginate(10);
-//        dd($cars);
-
         $columns = [
             [
                 'name' => 'Select',
@@ -34,6 +30,7 @@ class CarsController extends Controller
                 'name' => 'Max Speed',
                 'field_name' => 'max_speed',
                 'type' => 'Simple',
+                'sortable' => true
             ],
             [
                 'name' => 'Created At',
@@ -44,7 +41,8 @@ class CarsController extends Controller
             [
                 'name' => 'Updated At',
                 'field_name' => 'updated_at',
-                'type' => 'Simple'
+                'type' => 'Simple',
+                'sortable' => true
             ],
         ];
 
