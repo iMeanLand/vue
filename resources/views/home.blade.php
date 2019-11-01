@@ -15,7 +15,7 @@
                             </div>
                         @endif
                         <app-table action="{{ '/cars' }}" :columns="{{ $columns }}">
-                            {{--<template v-slot:header.name="{ item }">--}}
+                            {{--<template v-slot:column.links="{ item }">--}}
                                 {{--<a href="#">@{{ item }}</a>--}}
                             {{--</template>--}}
                         </app-table>

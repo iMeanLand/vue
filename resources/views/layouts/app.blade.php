@@ -39,6 +39,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('file') }}">{{ __('File') }}</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

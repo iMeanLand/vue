@@ -44,6 +44,22 @@ class CarsController extends Controller
                 'type' => 'Simple',
                 'sortable' => true
             ],
+
+            [
+                'name' => 'Actions',
+                'field_name' => 'links',
+                'type' => 'Links',
+                'links' => [
+                    [
+                        'label' => 'Edit',
+                        'link' => '/cars/view/{id}'
+                    ],
+                    [
+                        'label' => 'Delete',
+                        'link' => '/cars/delete/{id}'
+                    ],
+                ]
+            ],
         ];
 
         return view('home', ['columns' => json_encode($columns)]);

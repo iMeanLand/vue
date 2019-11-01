@@ -8,6 +8,7 @@
 </template>
 
 <script>
+    import Links from './cells/Links';
     import Linked from './cells/Linked';
     import Simple from './cells/Simple';
     import Checkbox from './cells/Checkbox';
@@ -25,7 +26,8 @@
         components: {
             Linked,
             Simple,
-            Checkbox
+            Checkbox,
+            Links
         }
 
     }

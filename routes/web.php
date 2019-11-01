@@ -27,3 +27,6 @@ Route::get('/cars/add', 'CarsController@add')->name('cars.add');
 Route::post('/cars/add', 'Api\CarsController@add');
 Route::get('/cars/edit/{id}', 'CarsController@edit')->name('cars.edit');
 Route::post('/cars/edit/{id}', 'Api\CarsController@edit');
+
+Route::get('/file', 'FileController@index')->name('file');
+Route::post('/file/upload', 'FileController@upload');

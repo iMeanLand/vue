@@ -1,6 +1,6 @@
 <template>
-    <a :href="getItemLink">
-        {{ item[column.field_name] }}
+    <a v-for="column.links" :href="getItemLink">
+        {{ column.links.label }}
     </a>
 </template>
 
@@ -20,7 +20,7 @@
             getItemLink() {
                 let functions = new Functions();
 
-                functions.getLink(this.column, this.item);
+                return functions.getLink(this.column.links, this.item);
             }
         }
 
