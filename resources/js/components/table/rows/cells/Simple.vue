@@ -16,8 +16,6 @@
             getItemValue: function() {
                 let parts = this.column.field_name.split('.');
                 let item = this.item;
-                console.log(parts);
-                console.log(item);
                 parts.forEach((val, index) => {
                     if (typeof item[val] === 'undefined' || item[val] == null) {
                         item = '';
@@ -25,7 +23,6 @@
                         item = item[val];
                     }
                 });
-                console.log(item);
                 return item;
             }
         }

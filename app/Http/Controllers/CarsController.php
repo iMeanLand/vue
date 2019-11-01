@@ -22,22 +22,24 @@ class CarsController extends Controller
                 'name' => 'Name',
                 'field_name' => 'name',
                 'link' => '/cars/edit/',
-                'type' => 'Linked'
+                'type' => 'Linked',
+                'sortable' => true
             ],
             [
                 'name' => 'Speed unit',
                 'field_name' => 'speed_unit.name',
-                'type' => 'Simple'
+                'type' => 'Simple',
             ],
             [
                 'name' => 'Max Speed',
                 'field_name' => 'max_speed',
-                'type' => 'Simple'
+                'type' => 'Simple',
             ],
             [
                 'name' => 'Created At',
                 'field_name' => 'created_at',
-                'type' => 'Simple'
+                'type' => 'Simple',
+                'sortable' => true
             ],
             [
                 'name' => 'Updated At',
