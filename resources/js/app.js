@@ -28,9 +28,19 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+class MyProvider {
+    getName() {
+        alert('bbbb');
+    }
+}
 
 const app = new Vue({
     el: '#app',
+    data() {
+        return {
+            myProvider: new MyProvider()
+        }
+    },
     components: {
         'app-table': Table,
         'add': Add,

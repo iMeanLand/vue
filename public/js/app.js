@@ -1867,8 +1867,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _misc_Loader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../misc/Loader */ "./resources/js/components/misc/Loader.vue");
-/* harmony import */ var _rows_Row__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rows/Row */ "./resources/js/components/table/rows/Row.vue");
+/* harmony import */ var _Provider_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Provider.js */ "./resources/js/components/table/Provider.js");
+/* harmony import */ var _misc_Loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../misc/Loader */ "./resources/js/components/misc/Loader.vue");
+/* harmony import */ var _rows_Row__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./rows/Row */ "./resources/js/components/table/rows/Row.vue");
+//
+//
+//
 //
 //
 //
@@ -1904,9 +1908,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 
-var jora = 'column.name';
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['columns', 'action'],
+  props: {
+    columns: {
+      type: Array
+    },
+    action: {
+      type: String
+    },
+    dataProvider: {
+      "default": function _default() {
+        return new _Provider_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
+      }
+    }
+  },
   data: function data() {
     return {
       items: [],
@@ -1921,23 +1937,23 @@ var jora = 'column.name';
     this.getItems();
   },
   components: {
-    Loader: _misc_Loader__WEBPACK_IMPORTED_MODULE_0__["default"],
-    Row: _rows_Row__WEBPACK_IMPORTED_MODULE_1__["default"]
+    Loader: _misc_Loader__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Row: _rows_Row__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   methods: {
     getItems: function getItems() {
-      this.switchPage(1);
+      this.switchPage();
     },
     switchPage: function switchPage() {
       var _this = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       this.current_page = page;
-      axios.post(this.action + '?page=' + page, {}).then(function (res) {
-        _this.items = res.data.data;
-        _this.next_page = res.data.next_page;
-        _this.last = res.data.last_page;
-        _this.previous_page = res.data.previous_page;
+      this.dataProvider.fetchData(this.action, 'page=' + page).then(function (data) {
+        _this.items = data.data;
+        _this.next_page = data.next_page;
+        _this.last = data.last_page;
+        _this.previous_page = data.previous_page;
         _this.loader = false;
       });
       this.loader = true;
@@ -38397,7 +38413,19 @@ var render = function() {
           _c(
             "tr",
             _vm._l(_vm.columns, function(column) {
-              return _c("th", [_vm._v(_vm._s(column.name))])
+              return _c(
+                "th",
+                [
+                  !_vm.$scopedSlots["header." + column.field_name]
+                    ? _c("span", [_vm._v(_vm._s(column.name))])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm._t("header." + column.field_name, null, {
+                    item: column.name
+                  })
+                ],
+                2
+              )
             }),
             0
           )
@@ -50811,6 +50839,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_table_Table__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/table/Table */ "./resources/js/components/table/Table.vue");
 /* harmony import */ var _components_Add__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Add */ "./resources/js/components/Add.vue");
 /* harmony import */ var _components_Edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Edit */ "./resources/js/components/Edit.vue");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
 
@@ -50839,8 +50873,30 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+var MyProvider =
+/*#__PURE__*/
+function () {
+  function MyProvider() {
+    _classCallCheck(this, MyProvider);
+  }
+
+  _createClass(MyProvider, [{
+    key: "getName",
+    value: function getName() {
+      alert('bbbb');
+    }
+  }]);
+
+  return MyProvider;
+}();
+
 var app = new Vue({
   el: '#app',
+  data: function data() {
+    return {
+      myProvider: new MyProvider()
+    };
+  },
   components: {
     'app-table': _components_table_Table__WEBPACK_IMPORTED_MODULE_0__["default"],
     'add': _components_Add__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -51128,6 +51184,45 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Loader_vue_vue_type_template_id_097aaebb___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Loader_vue_vue_type_template_id_097aaebb___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/table/Provider.js":
+/*!***************************************************!*\
+  !*** ./resources/js/components/table/Provider.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Provider; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Provider =
+/*#__PURE__*/
+function () {
+  function Provider() {
+    _classCallCheck(this, Provider);
+  }
+
+  _createClass(Provider, [{
+    key: "fetchData",
+    value: function fetchData(url, get_params) {
+      return axios.post(url + '?' + get_params, {}).then(function (res) {
+        return res.data;
+      });
+    }
+  }]);
+
+  return Provider;
+}();
 
 
 

@@ -3,7 +3,10 @@
         <table class="table">
             <thead>
             <tr>
-                <th v-for="column in columns">{{ column.name }}</th>
+                <th v-for="column in columns">
+                    <span v-if="!$scopedSlots[`header.${column.field_name}`]">{{ column.name }}</span>
+                    <slot :name="`header.${column.field_name}`" :item="column.name"></slot>
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -32,16 +35,25 @@
 </template>
 
 <script>
+    import Provider from './Provider.js';
     import Loader from '../misc/Loader';
     import Row from './rows/Row';
-    let jora = 'column.name';
 
     export default {
 
-        props: [
-            'columns',
-            'action'
-        ],
+        props: {
+            columns: {
+                type: Array
+            },
+            action: {
+                type: String,
+            },
+            dataProvider: {
+                default: () => {
+                    return new Provider();
+                }
+            },
+        },
 
         data() {
             return {
@@ -66,19 +78,19 @@
         methods: {
 
             getItems() {
-                this.switchPage(1);
+                this.switchPage();
             },
 
             switchPage(page = 1) {
                 this.current_page = page;
-                axios.post(this.action +'?page=' + page, {})
-                    .then(res => {
-                        this.items = res.data.data;
-                        this.next_page = res.data.next_page;
-                        this.last = res.data.last_page;
-                        this.previous_page = res.data.previous_page;
-                        this.loader = false
-                    });
+
+                this.dataProvider.fetchData(this.action, 'page=' + page).then(data => {
+                    this.items = data.data;
+                    this.next_page = data.next_page;
+                    this.last = data.last_page;
+                    this.previous_page = data.previous_page;
+                    this.loader = false
+                });
 
                 this.loader = true
             }
