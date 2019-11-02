@@ -3,6 +3,8 @@
 </template>
 
 <script>
+    import Functions from "../../Functions";
+
     export default {
 
         props: [
@@ -13,17 +15,10 @@
         mounted() {},
 
         computed: {
-            getItemValue: function() {
-                let parts = this.column.field_name.split('.');
-                let item = this.item;
-                parts.forEach((val, index) => {
-                    if (typeof item[val] === 'undefined' || item[val] == null) {
-                        item = '';
-                    } else {
-                        item = item[val];
-                    }
-                });
-                return item;
+            getItemValue() {
+                let functions = new Functions();
+
+                return functions.getItemValue(this.column.field_name, this.item);
             }
         }
 

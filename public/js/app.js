@@ -1974,10 +1974,8 @@ __webpack_require__.r(__webpack_exports__);
         _this.items = data.data;
         _this.next_page = data.next_page;
         _this.last = data.last_page;
-        _this.previous_page = data.previous_page;
-        _this.loader = false;
-      });
-      this.loader = true;
+        _this.previous_page = data.previous_page; // this.loader = false
+      }); // this.loader = true
     },
     sort: function sort(field) {
       var _this2 = this;
@@ -2100,7 +2098,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     getItemLink: function getItemLink() {
       var functions = new _Functions__WEBPACK_IMPORTED_MODULE_0__["default"]();
-      functions.getLink(this.column, this.item);
+      return functions.getLink(this.column, this.item);
     }
   }
 });
@@ -2123,14 +2121,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['column', 'item'],
   mounted: function mounted() {},
-  computed: {
-    getItemLink: function getItemLink() {
+  methods: {
+    getItemLink: function getItemLink(link) {
       var functions = new _Functions__WEBPACK_IMPORTED_MODULE_0__["default"]();
-      return functions.getLink(this.column.links, this.item);
+      return functions.getLink(link, this.item);
     }
   }
 });
@@ -2146,25 +2148,19 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Functions */ "./resources/js/components/table/Functions.js");
 //
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['column', 'item'],
   mounted: function mounted() {},
   computed: {
     getItemValue: function getItemValue() {
-      var parts = this.column.field_name.split('.');
-      var item = this.item;
-      parts.forEach(function (val, index) {
-        if (typeof item[val] === 'undefined' || item[val] == null) {
-          item = '';
-        } else {
-          item = item[val];
-        }
-      });
-      return item;
+      var functions = new _Functions__WEBPACK_IMPORTED_MODULE_0__["default"]();
+      return functions.getItemValue(this.column.field_name, this.item);
     }
   }
 });
@@ -38882,8 +38878,24 @@ render._withStripped = true
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function () {}
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    _vm._l(_vm.column.links, function(link) {
+      return _c("span", [
+        _c("a", { attrs: { href: _vm.getItemLink(link) } }, [
+          _vm._v("\n        " + _vm._s(link.label) + "\n    ")
+        ])
+      ])
+    }),
+    0
+  )
+}
 var staticRenderFns = []
+render._withStripped = true
 
 
 
@@ -51478,50 +51490,25 @@ function () {
     key: "getLink",
     value: function getLink(column, item) {
       var link = null;
-      Object.keys(item).forEach(function (value) {
-        link = column.link.replace("{".concat(value, "}"), value);
+      Object.keys(item).forEach(function (key) {
+        if (column.link.includes('{' + key + '}')) {
+          link = column.link.replace('{' + key + '}', item[key]);
+        }
       });
       return link;
     }
-  }]);
-
-  return Functions;
-}();
-
-
-
-/***/ }),
-
-/***/ "./resources/js/components/table/Provider.js":
-/*!***************************************************!*\
-  !*** ./resources/js/components/table/Provider.js ***!
-  \***************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Provider; });
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var Provider =
-/*#__PURE__*/
-function () {
-  function Provider() {
-    _classCallCheck(this, Provider);
-  }
-
-  _createClass(Provider, [{
-    key: "fetchData",
-    value: function fetchData(url, get_params) {
-      get_params = this.buildUrlQuery(get_params);
-      return axios.post(url + get_params, {}).then(function (res) {
-        return res.data;
+  }, {
+    key: "getItemValue",
+    value: function getItemValue(column, item) {
+      var parts = column.split('.');
+      parts.forEach(function (val, index) {
+        if (typeof item[val] === 'undefined' || item[val] == null) {
+          item = '';
+        } else {
+          item = item[val];
+        }
       });
+      return item;
     }
   }, {
     key: "buildUrlQuery",
@@ -51544,8 +51531,67 @@ function () {
     }
   }]);
 
-  return Provider;
+  return Functions;
 }();
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/table/Provider.js":
+/*!***************************************************!*\
+  !*** ./resources/js/components/table/Provider.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Provider; });
+/* harmony import */ var _Functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Functions */ "./resources/js/components/table/Functions.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var Provider =
+/*#__PURE__*/
+function (_Functions) {
+  _inherits(Provider, _Functions);
+
+  function Provider() {
+    _classCallCheck(this, Provider);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Provider).apply(this, arguments));
+  }
+
+  _createClass(Provider, [{
+    key: "fetchData",
+    value: function fetchData(url, get_params) {
+      get_params = this.buildUrlQuery(get_params);
+      return axios.post(url + get_params, {}).then(function (res) {
+        return res.data;
+      });
+    }
+  }]);
+
+  return Provider;
+}(_Functions__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 
 

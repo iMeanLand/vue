@@ -1,7 +1,11 @@
 <template>
-    <a v-for="column.links" :href="getItemLink">
-        {{ column.links.label }}
-    </a>
+    <div>
+    <span v-for="link in column.links">
+        <a :href="getItemLink(link)">
+            {{ link.label }}
+        </a>
+    </span>
+    </div>
 </template>
 
 <script>
@@ -14,13 +18,13 @@
             'item'
         ],
 
-        mounted() {},
+        mounted() {
+        },
 
-        computed: {
-            getItemLink() {
+        methods: {
+            getItemLink: function (link) {
                 let functions = new Functions();
-
-                return functions.getLink(this.column.links, this.item);
+                return functions.getLink(link, this.item);
             }
         }
 

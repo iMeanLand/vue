@@ -109,10 +109,10 @@
                     this.next_page = data.next_page;
                     this.last = data.last_page;
                     this.previous_page = data.previous_page;
-                    this.loader = false
+                    // this.loader = false
                 });
 
-                this.loader = true
+                // this.loader = true
             },
 
             sort(field) {

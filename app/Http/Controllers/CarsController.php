@@ -17,7 +17,7 @@ class CarsController extends Controller
             [
                 'name' => 'Name',
                 'field_name' => 'name',
-                'link' => '/cars/edit/',
+                'link' => '/cars/edit/{id}',
                 'type' => 'Linked',
                 'sortable' => true
             ],

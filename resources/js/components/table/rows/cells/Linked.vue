@@ -17,10 +17,10 @@
         mounted() {},
 
         computed: {
-            getItemLink() {
+            getItemLink: function() {
                 let functions = new Functions();
 
-                functions.getLink(this.column, this.item);
+                return functions.getLink(this.column, this.item);
             }
         }
 
