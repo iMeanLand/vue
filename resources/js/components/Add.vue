@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import Loader from './misc/Loader';
+    import Loader from './table/misc/Loader';
 
     export default {
 

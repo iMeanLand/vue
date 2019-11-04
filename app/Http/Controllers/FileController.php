@@ -4,21 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Car;
 use Illuminate\Http\Request;
+use TusPhp\Tus\Server;
 
 class FileController extends Controller
 {
-    public function index()
+    public function files()
     {
-        return view('file');
-    }
-
-    public function upload(Request $request)
-    {
-        $server   = new \TusPhp\Tus\Server('redis'); // Leave empty for file based cache
+        $server = new \TusPhp\Tus\Server(); // Leave empty for file based cache
+        $server->setUploadDir('http://localhost:8080/uploaded/');
         $response = $server->serve();
-
         $response->send();
-
-        return redirect('/file');
+        exit(0);
     }
 }

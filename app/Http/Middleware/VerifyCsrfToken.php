@@ -14,11 +14,14 @@ class VerifyCsrfToken extends Middleware
     protected $addHttpCookie = true;
 
     /**
-     * The URIs that should be excluded from CSRF verification.
+     * The URIs that should be excluded from CSRF v-erification.
      *
      * @var array
      */
     protected $except = [
-        //
+        '/file/upload',
+        '/file',
+        'files',
+        '/files'
     ];
 }

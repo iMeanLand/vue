@@ -53,7 +53,7 @@
 
 <script>
     import Provider from './Provider.js';
-    import Loader from '../misc/Loader';
+    import Loader from './misc/Loader';
     import Row from './rows/Row';
     import Sortable from './rows/header/Sortable';
 
@@ -110,7 +110,6 @@
 
             switchPage(page = 1) {
                 this.current_page = page;
-
                 this.dataProvider.fetchData(this.action, {
                     page: page
                 }).then(data => {
@@ -141,7 +140,6 @@
                     this.direction = 'ASC';
                 }
 
-
                 this.current_sort_field = field;
 
                 this.dataProvider.fetchData(this.action, {
@@ -159,14 +157,14 @@
 
         computed: {
             showPrevious: function () {
-                if (this.current_page < this.last) {
+                if (this.current_page <= this.from) {
                     return 'disabled';
                 }
                 return '';
             },
 
             showNext: function () {
-                if (this.current_page > this.last) {
+                if (this.current_page >= this.last) {
                     return 'disabled';
                 }
                 return '';
