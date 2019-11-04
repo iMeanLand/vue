@@ -1922,6 +1922,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -1960,6 +1962,13 @@ __webpack_require__.r(__webpack_exports__);
     Sortable: _rows_header_Sortable__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   methods: {
+    showActive: function showActive(current) {
+      if (current === this.current_page) {
+        return 'active';
+      }
+
+      return '';
+    },
     getItems: function getItems() {
       this.switchPage();
     },
@@ -2008,6 +2017,22 @@ __webpack_require__.r(__webpack_exports__);
         _this2.loader = false;
       });
       this.loader = true;
+    }
+  },
+  computed: {
+    showPrevious: function showPrevious() {
+      if (this.current_page < this.last) {
+        return 'disabled';
+      }
+
+      return '';
+    },
+    showNext: function showNext() {
+      if (this.current_page > this.last) {
+        return 'disabled';
+      }
+
+      return '';
     }
   }
 });
@@ -38663,22 +38688,20 @@ var render = function() {
           "ul",
           { staticClass: "pagination" },
           [
-            _c("li", { staticClass: "page-item" }, [
-              _vm.current_page > _vm.from
-                ? _c(
-                    "a",
-                    {
-                      staticClass: "page-link",
-                      attrs: { href: "#" },
-                      on: {
-                        click: function($event) {
-                          return _vm.switchPage(_vm.current_page - 1)
-                        }
-                      }
-                    },
-                    [_vm._v("Previous")]
-                  )
-                : _vm._e()
+            _c("li", { class: "page-item " + _vm.showPrevious }, [
+              _c(
+                "a",
+                {
+                  staticClass: "page-link",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      return _vm.switchPage(_vm.current_page - 1)
+                    }
+                  }
+                },
+                [_vm._v("Previous")]
+              )
             ]),
             _vm._v(" "),
             _vm._l(_vm.last, function(from) {
@@ -38686,9 +38709,7 @@ var render = function() {
                 _c(
                   "a",
                   {
-                    class:
-                      "page-link " +
-                      (from === _vm.current_page ? "active" : ""),
+                    class: "page-link " + _vm.showActive(from),
                     attrs: { href: "#" },
                     on: {
                       click: function($event) {
@@ -38701,22 +38722,20 @@ var render = function() {
               ])
             }),
             _vm._v(" "),
-            _c("li", { staticClass: "page-item" }, [
-              _vm.current_page < _vm.last
-                ? _c(
-                    "a",
-                    {
-                      staticClass: "page-link",
-                      attrs: { href: "#" },
-                      on: {
-                        click: function($event) {
-                          return _vm.switchPage(_vm.current_page + 1)
-                        }
-                      }
-                    },
-                    [_vm._v("Next")]
-                  )
-                : _vm._e()
+            _c("li", { class: "page-item " + _vm.showNext }, [
+              _c(
+                "a",
+                {
+                  staticClass: "page-link",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      return _vm.switchPage(_vm.current_page + 1)
+                    }
+                  }
+                },
+                [_vm._v("Next")]
+              )
             ])
           ],
           2

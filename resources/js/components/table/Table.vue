@@ -6,7 +6,8 @@
                 <th v-for="column in columns">
                     <span v-if="!$scopedSlots[`header.${column.field_name}`]">
                         <span v-on:click="sort(column.field_name)" v-if="column.sortable">
-                            <Sortable :direction="direction" :column="column.name" :active="current_sort_field == column.field_name ? true : false" />
+                            <Sortable :direction="direction" :column="column.name"
+                                      :active="current_sort_field == column.field_name ? true : false"/>
                         </span>
                         <span v-else>
                             {{ column.name }}
@@ -27,14 +28,15 @@
         <Loader :show="loader"/>
         <nav>
             <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" v-if="current_page > from" v-on:click="switchPage(current_page - 1)" href="#">Previous</a>
+                <li :class="`page-item ${showPrevious}`">
+                    <a class="page-link" v-on:click="switchPage(current_page - 1)" href="#">Previous</a>
                 </li>
                 <li v-for="from in last" class="page-item">
-                    <a :class="'page-link ' + (from === current_page ? 'active' : '')" v-on:click="switchPage(from)" href="#">{{ from }}</a>
+                    <a :class="`page-link ${showActive(from)}`" v-on:click="switchPage(from)"
+                       href="#">{{ from }}</a>
                 </li>
-                <li class="page-item">
-                    <a class="page-link" v-if="current_page < last" v-on:click="switchPage(current_page + 1)" href="#">Next</a>
+                <li :class="`page-item ${showNext}`">
+                    <a class="page-link" v-on:click="switchPage(current_page + 1)" href="#">Next</a>
                 </li>
             </ul>
         </nav>
@@ -95,6 +97,13 @@
 
         methods: {
 
+            showActive(current) {
+                if (current === this.current_page) {
+                    return 'active';
+                }
+                return '';
+            },
+
             getItems() {
                 this.switchPage();
             },
@@ -146,6 +155,22 @@
                 this.loader = true;
             }
 
+        },
+
+        computed: {
+            showPrevious: function () {
+                if (this.current_page < this.last) {
+                    return 'disabled';
+                }
+                return '';
+            },
+
+            showNext: function () {
+                if (this.current_page > this.last) {
+                    return 'disabled';
+                }
+                return '';
+            }
         }
 
     }
