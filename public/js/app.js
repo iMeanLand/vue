@@ -51132,66 +51132,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_table_Table__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/table/Table */ "./resources/js/components/table/Table.vue");
 /* harmony import */ var _components_Add__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Add */ "./resources/js/components/Add.vue");
 /* harmony import */ var _components_Edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Edit */ "./resources/js/components/Edit.vue");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 
 
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-var MyProvider =
-/*#__PURE__*/
-function () {
-  function MyProvider() {
-    _classCallCheck(this, MyProvider);
-  }
-
-  _createClass(MyProvider, [{
-    key: "getName",
-    value: function getName() {
-      alert('bbbb');
-    }
-  }]);
-
-  return MyProvider;
-}();
+window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js"); // class MyProvider {
+//     getName() {
+//         alert('bbbb');
+//     }
+// }
 
 var app = new Vue({
   el: '#app',
-  data: function data() {
-    return {
-      myProvider: new MyProvider()
-    };
-  },
+  // data() {
+  //     return {
+  //         myProvider: new MyProvider()
+  //     }
+  // },
   components: {
-    'app-table': _components_table_Table__WEBPACK_IMPORTED_MODULE_0__["default"],
+    'dtable': _components_table_Table__WEBPACK_IMPORTED_MODULE_0__["default"],
     'add': _components_Add__WEBPACK_IMPORTED_MODULE_1__["default"],
     'edit': _components_Edit__WEBPACK_IMPORTED_MODULE_2__["default"]
   }

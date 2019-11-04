@@ -14,11 +14,11 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        <app-table action="{{ '/cars' }}" :columns="{{ $columns }}">
+                        <dtable action="{{ '/cars' }}" :columns="{{ $columns }}">
                             {{--<template v-slot:column.links="{ item }">--}}
                                 {{--<a href="#">@{{ item }}</a>--}}
                             {{--</template>--}}
-                        </app-table>
+                        </dtable>
                         You are logged in!
                     </div>
                 </div>
